@@ -8,25 +8,36 @@ import flixel.math.FlxMath;
 import flixel.FlxObject;
 
 class PlayState extends FlxState {
-  var world: World;
+  var level: Level;
+  var player: Player;
 
   override public function create(): Void {
     super.create();
 
-    /*
-    player = new FlxSprite(64, 0);
-    player.makeGraphic(16, 16, FlxColor.RED);
-    player.acceleration.y = 420;
+    //FlxG.mouse.useSystemCursor = true;
+
+    var map: Array<Int> = [
+      0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0,
+      1, 0, 0, 0, 1, 1, 1,
+      1, 0, 0, 0, 0, 0, 1,
+      1, 0, 0, 0, 0, 0, 1,
+      1, 0, 0, 1, 1, 1, 1
+    ];
+
+    level = new Level(map, 7, 6);
+    add(level);
+
+    player = new Player(32, 8);
     add(player);
-    */
 
-    FlxG.mouse.useSystemCursor = true;
-
-    world = new World();
-    add(world);
+    //FlxG.camera.follow(player, TOPDOWN, 1);
+    FlxG.camera.zoom = 2;
   }
 
   override public function update(elapsed: Float): Void {
     super.update(elapsed);
+
+    FlxG.collide(player, level);
   }
 }
