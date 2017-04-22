@@ -31,7 +31,7 @@ class PlayState extends FlxState {
     player = new Player(32, 8);
     add(player);
 
-    //FlxG.camera.follow(player, TOPDOWN, 1);
+    FlxG.camera.follow(player, PLATFORMER, 1);
     FlxG.camera.zoom = 2;
   }
 
