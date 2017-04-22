@@ -21,7 +21,7 @@ class Player extends FlxSprite {
 
   public function new(x, y) {
     super(x, y);
-    loadGraphic(AssetPaths.cube_health_1__png); // TODO
+    loadGraphic(AssetPaths.cube_health_1__png);
     setSize(16, 16);
 
     maxVelocity.set(TERMINAL_XV, TERMINAL_YV);
@@ -40,10 +40,16 @@ class Player extends FlxSprite {
     ox = x;
     oy = y;
 
-    wrap();
+    // wrapping
+    drawWrapped();
 
     x = ox;
     y = oy;
+
+    // shadow
+    drawShadow();
+
+    // actual
     super.draw();
   }
 
@@ -72,27 +78,31 @@ class Player extends FlxSprite {
       velocity.y += GRAVITY;
   }
 
-  private function wrap() {
+  private function drawWrapped() {
     var lvHeight = 480;
     var lvWidth = 640;
 
     if (y > lvHeight - 16) {
       y = y - lvHeight;
+      drawShadow();
       super.draw();
     }
 
     if (y < 0) {
       y = y + lvHeight;
+      drawShadow();
       super.draw();
     }
 
     if (x > lvWidth - 16) {
       x = x - lvWidth;
+      drawShadow();
       super.draw();
     }
 
     if (x < 0) {
       x = x + lvWidth;
+      drawShadow();
       super.draw();
     }
 
@@ -117,5 +127,18 @@ class Player extends FlxSprite {
       trace('wrap: left -> right');
       ox = lvWidth - 16;
     }
+  }
+
+  private function drawShadow() {
+    x += 4;
+    y += 4;
+
+    loadGraphic(AssetPaths.cube_health_1_shadow__png);
+    super.draw();
+
+    x -= 4;
+    y -= 4;
+
+    loadGraphic(AssetPaths.cube_health_1__png);
   }
 }
