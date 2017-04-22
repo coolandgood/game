@@ -1,10 +1,10 @@
 package;
 
-import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxText;
 import flixel.FlxSprite;
 
-class HUD extends FlxTypedGroup<FlxSprite> {
+class HUD extends FlxSpriteGroup {
   var text: FlxText;
 
   public function new() {

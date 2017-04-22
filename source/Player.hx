@@ -19,6 +19,9 @@ class Player extends FlxSprite {
   private var ox: Float;
   private var oy: Float;
 
+  public var lvWidth: Int = 640;
+  public var lvHeight: Int = 480;
+
   public function new(x, y) {
     super(x, y);
     loadGraphic(AssetPaths.cube_health_1__png);
@@ -79,9 +82,6 @@ class Player extends FlxSprite {
   }
 
   private function drawWrapped() {
-    var lvHeight = 480;
-    var lvWidth = 640;
-
     if (y > lvHeight - 16) {
       y = y - lvHeight;
       drawShadow();
