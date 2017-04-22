@@ -7,6 +7,6 @@ class Level extends FlxTilemap {
   public function new(mapData: Array<Int>, lvWidth: Int, lvHeight: Int) {
     super();
 
-    loadMapFromArray(mapData, lvWidth, lvHeight, AssetPaths.tileset__png, 8, 8);
+    loadMapFromArray(mapData, lvWidth, lvHeight, AssetPaths.tileset__png, 16, 16);
   }
 }

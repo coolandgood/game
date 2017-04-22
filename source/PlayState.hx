@@ -31,8 +31,7 @@ class PlayState extends FlxState {
     player = new Player(32, 8);
     add(player);
 
-    FlxG.camera.follow(player, PLATFORMER, 1);
-    FlxG.camera.zoom = 2;
+    FlxG.camera.bgColor = 0xFF140c1c;
   }
 
   override public function update(elapsed: Float): Void {
