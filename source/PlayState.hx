@@ -14,7 +14,7 @@ class PlayState extends FlxState {
   override public function create(): Void {
     super.create();
 
-    //FlxG.mouse.useSystemCursor = true;
+    FlxG.mouse.useSystemCursor = true;
 
     var map: Array<Int> = [
       0, 0, 0, 0, 0, 0, 0,
@@ -31,7 +31,7 @@ class PlayState extends FlxState {
     player = new Player(32, 8);
     add(player);
 
-    FlxG.camera.bgColor = 0xFF140c1c;
+    FlxG.camera.bgColor = 0xFFdb1b3b;
   }
 
   override public function update(elapsed: Float): Void {

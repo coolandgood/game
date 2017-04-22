@@ -16,6 +16,9 @@ class Player extends FlxSprite {
   private static inline var SPEED = 24 * 2;
   private static inline var DRAG = 0.6;
 
+  private var ox: Float;
+  private var oy: Float;
+
   public function new(x, y) {
     super(x, y);
     loadGraphic(AssetPaths.cube_health_1__png); // TODO
@@ -27,7 +30,21 @@ class Player extends FlxSprite {
   override public function update(tick: Float): Void {
     move();
 
+    if (FlxG.keys.justPressed.SPACE)
+      FlxG.camera.shake(0.03, 0.3);
+
     super.update(tick);
+  }
+
+  override public function draw() {
+    ox = x;
+    oy = y;
+
+    wrap();
+
+    x = ox;
+    y = oy;
+    super.draw();
   }
 
   private function move() {
@@ -53,5 +70,52 @@ class Player extends FlxSprite {
 
     if (velocity.y < TERMINAL_FALL)
       velocity.y += GRAVITY;
+  }
+
+  private function wrap() {
+    var lvHeight = 480;
+    var lvWidth = 640;
+
+    if (y > lvHeight - 16) {
+      y = y - lvHeight;
+      super.draw();
+    }
+
+    if (y < 0) {
+      y = y + lvHeight;
+      super.draw();
+    }
+
+    if (x > lvWidth - 16) {
+      x = x - lvWidth;
+      super.draw();
+    }
+
+    if (x < 0) {
+      x = x + lvWidth;
+      super.draw();
+    }
+
+    // wrap actual sprite
+
+    if (oy > lvHeight) {
+      trace('wrap: bottom -> top');
+      oy = 0;
+    }
+
+    if (oy < -16) {
+      trace('wrap: top -> bottom');
+      oy = lvHeight - 16;
+    }
+
+    if (ox > lvWidth) {
+      trace('wrap: right -> left');
+      ox = 0;
+    }
+
+    if (ox < -16) {
+      trace('wrap: left -> right');
+      ox = lvWidth - 16;
+    }
   }
 }
