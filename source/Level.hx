@@ -34,6 +34,14 @@ class Level extends FlxGroup {
                              16, 16, 1);
     add(tilemap);
 
+    var objectsLayer: TiledObjectLayer = cast map.getLayer('objects');
+    var objects: Array<TiledObject> = objectsLayer.objects;
+
+    for (object in objects) {
+      if (object.type == "spawn")
+        player.setPosition(object.x, object.y);
+    }
+
     player.lvWidth = width = map.width * 16;
     player.lvHeight = height = map.height * 16;
   }
