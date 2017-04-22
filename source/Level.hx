@@ -12,6 +12,7 @@ import flixel.addons.editors.tiled.TiledObjectLayer;
 
 class Level extends FlxGroup {
   var tilemap: FlxTilemap;
+  var shadowTilemap: FlxTilemap;
   var player: Player;
 
   public var width: Int;
@@ -32,6 +33,15 @@ class Level extends FlxGroup {
                              map.height,
                              AssetPaths.tileset__png,
                              16, 16, 1);
+
+    shadowTilemap = new FlxTilemap();
+    shadowTilemap.loadMapFromArray(mainLayer.tileArray,
+                                   map.width,
+                                   map.height,
+                                   AssetPaths.tileset_shadow__png,
+                                   16, 16, 1);
+
+    //add(shadowTilemap);
     add(tilemap);
 
     player.lvWidth = width = map.width * 16;
@@ -44,7 +54,9 @@ class Level extends FlxGroup {
     FlxG.collide(player, tilemap);
   }
 
+  /*
   override public function draw() {
     super.draw();
   }
+  */
 }
