@@ -12,6 +12,7 @@ import flixel.addons.editors.tiled.TiledObjectLayer;
 
 class Level extends FlxGroup {
   var tilemap: FlxTilemap;
+  var nonsolidTilemap: FlxTilemap;
   var player: Player;
 
   public var width: Int;
@@ -25,6 +26,7 @@ class Level extends FlxGroup {
 
     var map = new TiledMap('assets/data/$level.tmx');
     var mainLayer: TiledTileLayer = cast map.getLayer('solid');
+    var visibleLayer: TiledTileLayer = cast map.getLayer('visible');
 
     tilemap = new FlxTilemap();
     tilemap.loadMapFromArray(mainLayer.tileArray,
@@ -34,12 +36,23 @@ class Level extends FlxGroup {
                              16, 16, 1);
     add(tilemap);
 
+    nonsolidTilemap = new FlxTilemap();
+    nonsolidTilemap.loadMapFromArray(visibleLayer.tileArray,
+                                     map.width,
+                                     map.height,
+                                     AssetPaths.tileset__png,
+                                     16, 16, 1);
+    add(nonsolidTilemap);
+
     var objectsLayer: TiledObjectLayer = cast map.getLayer('objects');
     var objects: Array<TiledObject> = objectsLayer.objects;
 
     for (object in objects) {
       if (object.type == "spawn")
         player.setPosition(object.x, object.y);
+
+      if (object.type == "oneway")
+        // TODO
     }
 
     player.lvWidth = width = map.width * 16;
