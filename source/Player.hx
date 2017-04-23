@@ -5,22 +5,29 @@ import flixel.FlxObject;
 import flixel.FlxG;
 import flixel.util.FlxColor;
 
+import flixel.effects.particles.FlxEmitter.FlxEmitterMode;
+import flixel.effects.particles.FlxEmitter;
+import flixel.effects.particles.FlxParticle;
+
 class Player extends FlxSprite {
   private static inline var TERMINAL_XV = 72 * 2;
   private static inline var TERMINAL_YV = 256 * 2;
-  private static inline var TERMINAL_FALL = 72 * 2;
 
-  private static inline var JUMP_FORCE = 164 * 2;
-  private static inline var GRAVITY = 6 * 2;
+  private static inline var JUMP_FORCE = 300 * 2;
+  private static inline var GRAVITY = 10 * 2;
 
-  private static inline var SPEED = 24 * 2;
-  private static inline var DRAG = 0.6;
+  private static inline var SPEED = 20 * 2;
+  private static inline var DRAG_X = 0.8;
+  private static inline var DRAG_Y = 0.95;
 
   private var ox: Float;
   private var oy: Float;
 
   public var lvWidth: Int = 640;
   public var lvHeight: Int = 480;
+  public var level: Level; // reference to parent Level
+
+  public var controllable: Bool = true;
 
   public function new(x, y) {
     super(x, y);
@@ -31,10 +38,10 @@ class Player extends FlxSprite {
   }
 
   override public function update(tick: Float): Void {
-    move();
+    if (controllable) move();
 
     if (FlxG.keys.justPressed.SPACE)
-      FlxG.camera.shake(0.03, 0.3);
+      FlxG.camera.shake(0.01, 0.2);
 
     super.update(tick);
   }
@@ -56,6 +63,19 @@ class Player extends FlxSprite {
     super.draw();
   }
 
+  public function explode() {
+    // explode into a bunch of particles
+    var emitter = new FlxEmitter(x + width/2, y + height/2, 75);
+    level.add(emitter);
+    kill(); // remove self
+
+    emitter.launchMode = FlxEmitterMode.SQUARE;
+    emitter.acceleration.set(-8, GRAVITY * -1, -16, GRAVITY * -3);
+
+    emitter.makeParticles(2, 2, 0xFF5674B9, 75).start(true, 0, 0);
+    FlxG.camera.shake(0.05, 0.2);
+  }
+
   private function move() {
     var keys = FlxG.keys;
 
@@ -67,7 +87,7 @@ class Player extends FlxSprite {
       velocity.x += SPEED;
     } else {
       // slow down
-      velocity.x *= DRAG;
+      velocity.x *= DRAG_X;
     }
 
     if (keys.justPressed.UP && isTouching(FlxObject.FLOOR)) {
@@ -77,8 +97,8 @@ class Player extends FlxSprite {
       velocity.y *= 0.5; // jump height is based on how long you hold the up key
     }
 
-    if (velocity.y < TERMINAL_FALL)
-      velocity.y += GRAVITY;
+    velocity.y += GRAVITY;
+    velocity.y *= DRAG_Y;
   }
 
   private function drawWrapped() {
