@@ -12,6 +12,7 @@ import flixel.addons.editors.tiled.TiledObjectLayer;
 
 class Level extends FlxGroup {
   var tilemap: FlxTilemap;
+  var border: FlxTilemap;
   var player: Player;
 
   public var width: Int;
@@ -24,15 +25,25 @@ class Level extends FlxGroup {
     add(player);
 
     var map = new TiledMap('assets/data/$level.tmx');
-    var mainLayer: TiledTileLayer = cast map.getLayer('solid');
+    var solidLayer: TiledTileLayer = cast map.getLayer('solid');
+    var borderLayer: TiledTileLayer = cast map.getLayer('border');
 
     tilemap = new FlxTilemap();
-    tilemap.loadMapFromArray(mainLayer.tileArray,
+    tilemap.loadMapFromArray(solidLayer.tileArray,
                              map.width,
                              map.height,
                              AssetPaths.tileset__png,
                              16, 16, 1);
     add(tilemap);
+
+    border = new FlxTilemap();
+    border.loadMapFromArray(borderLayer.tileArray,
+                             map.width,
+                             map.height,
+                             AssetPaths.tileset__png,
+                             16, 16, 1);
+    add(border);
+
 
     var objectsLayer: TiledObjectLayer = cast map.getLayer('objects');
     var objects: Array<TiledObject> = objectsLayer.objects;
@@ -42,8 +53,11 @@ class Level extends FlxGroup {
         player.setPosition(object.x, object.y);
     }
 
-    player.lvWidth = width = map.width * 16;
-    player.lvHeight = height = map.height * 16;
+    width = map.width * 16;
+    height = map.height * 16;
+
+    player.lvWidth = width - 32;
+    player.lvHeight = height - 32;
   }
 
   override public function update(elapsed: Float) {
