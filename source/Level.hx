@@ -24,7 +24,6 @@ class Level extends FlxGroup {
     super();
 
     var player = new Player(32, 32);
-    add(player);
 
     var map = new TiledMap('assets/data/$level.tmx');
     var solidLayer: TiledTileLayer = cast map.getLayer('solid');
@@ -37,7 +36,7 @@ class Level extends FlxGroup {
                              16, 16, 1);
 
     shadowTilemap = new FlxTilemap();
-    shadowTilemap.loadMapFromArray(mainLayer.tileArray,
+    shadowTilemap.loadMapFromArray(solidLayer.tileArray,
                                    map.width,
                                    map.height,
                                    AssetPaths.tileset_shadow__png,
@@ -46,6 +45,7 @@ class Level extends FlxGroup {
     shadowTilemap.x = shadowTilemap.y = 4;
 
     add(shadowTilemap);
+    add(player);
     add(tilemap);
     add(genBorder(map.width + 3, map.height + 3));
 
