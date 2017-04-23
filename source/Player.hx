@@ -34,6 +34,7 @@ class Player extends FlxSprite {
     loadGraphic(AssetPaths.cube_health_1__png);
     setSize(16, 16);
 
+    this.level = level;
     maxVelocity.set(TERMINAL_XV, TERMINAL_YV);
   }
 
