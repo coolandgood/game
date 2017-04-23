@@ -22,7 +22,7 @@ class Preloader extends FlxBasePreloader {
 
       var css = '#openfl-content {'
               + '  position: absolute; top: 50%; left: 50%;'
-              + '  transform: translate(-50%, -50%) scale(1.5); }'
+              + '  transform: translate(-50%, -50%) scale(1); }'
               + 'canvas { image-rendering: optimizespeed; }'
               + 'body { background-color: #db1b3b; }';
       var head = document.head;
