@@ -19,6 +19,6 @@ class HUD extends FlxSpriteGroup {
     super.update(elapsed);
     tick++;
 
-    text.text = 'elasped: $tick';
+    text.text = 'elapsed: $tick';
   }
 }
