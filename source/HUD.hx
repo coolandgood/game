@@ -10,7 +10,7 @@ class HUD extends FlxSpriteGroup {
   public function new() {
     super();
 
-    text = new FlxText(8, 8, 'idk', 16);
+    text = new FlxText(8, 8, 'press m to mute the cool and good music', 16);
     add(text);
   }
 }
