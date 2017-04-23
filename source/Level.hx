@@ -37,6 +37,15 @@ class Level extends FlxGroup {
     this.parent = parent;
     visible = false;
 
+    load(level);
+  }
+
+  public function load(level: String) {
+    if (tilemap != null) tilemap.destroy();
+    if (shadowTilemap != null) shadowTilemap.destroy();
+    if (border != null) border.destroy();
+    if (player != null) player.destroy();
+
     player = new Player(32, 32, this);
     player.controllable = false;
 
@@ -117,9 +126,11 @@ class Level extends FlxGroup {
     // animate!
 
     visible = true;
+    player.visible = false;
+    player.immovable = true;
     trace('level go!');
 
-    var things = [ player, tilemap, shadowTilemap, border ];
+    var things = [ tilemap, shadowTilemap, border ];
     for (thing in things) {
       var oy = thing.y;
       thing.y -= 640;
@@ -128,11 +139,21 @@ class Level extends FlxGroup {
         type: FlxTween.PERSIST,
         onComplete: function(tween: FlxTween) {
           going = true;
+
+          player.visible = true;
+          player.scale.x = 0; player.scale.y = 0;
+
+          FlxTween.tween(player.scale, { x: 1, y: 1 }, 0.4, {
+            ease: FlxEase.expoOut,
+            type: FlxTween.PERSIST,
+            onComplete: function(tween: FlxTween) {
+              player.immovable = false;
+              player.controllable = true;
+            }
+          });
         }
       });
     }
-
-    player.controllable = true;
   }
 
   override public function update(elapsed: Float) {
@@ -201,13 +222,11 @@ class Level extends FlxGroup {
     new FlxTimer().start(1.5, function(timer: FlxTimer) {
       // close off the level
       FlxG.camera.fade(0xffdb1b3b, 0.2, false, function() {
-        var nextLevel = new Level(object.name, parent);
-        parent.add(nextLevel);
+        load(object.name);
+        go();
 
+        FlxG.camera.fade(0xffdb1b3b, 0, true); // reset fade
         trace('next level', object.name);
-        destroy();
-
-        nextLevel.go();
       });
     });
   }
