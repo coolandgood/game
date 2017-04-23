@@ -6,6 +6,8 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.group.FlxGroup;
 import flixel.math.FlxPoint;
+import flixel.FlxSprite;
+import flixel.util.FlxTimer;
 
 import flixel.addons.editors.tiled.TiledLayer;
 import flixel.addons.editors.tiled.TiledTileLayer;
@@ -50,8 +52,23 @@ class Level extends FlxGroup {
     // tile that breaks after stepping on
     tilemap.setTileProperties(17, FlxObject.UP, function(tile, object) {
       // TODO animate this? particles would be nice
-      tilemap.setTile(cast tile.x / 16, cast tile.y / 16, 0);
-      shadowTilemap.setTile(cast tile.x / 16, cast tile.y / 16, 0);
+      var disappearing_tile:FlxSprite = tilemap.tileToSprite(cast tile.x / 16, cast tile.y / 16);
+      add(disappearing_tile);
+
+      tilemap.setTile(cast tile.x / 16, cast tile.y / 16, 4);
+      shadowTilemap.setTile(cast tile.x / 16, cast tile.y / 16, 4);
+
+      new FlxTimer().start(0.2, 
+      	function(timer){
+      		disappearing_tile.alpha -= 0.1;
+      		if (timer.loopsLeft == 0) {
+      			tilemap.setTile(cast tile.x / 16, cast tile.y / 16, 0);
+      			shadowTilemap.setTile(cast tile.x / 16, cast tile.y / 16, 0);
+      		}
+      	},
+      	10);
+
+      
     }, Player);
 
     shadowTilemap = new FlxTilemap();
