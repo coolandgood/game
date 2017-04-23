@@ -1,6 +1,7 @@
 package;
 
 import flixel.tile.FlxTilemap;
+import flixel.tile.FlxTile;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.group.FlxGroup;
@@ -45,6 +46,13 @@ class Level extends FlxGroup {
     tilemap.setTileProperties(15, FlxObject.UP);
     tilemap.setTileProperties(10, FlxObject.LEFT);
     tilemap.setTileProperties(16, FlxObject.LEFT);
+
+    // tile that breaks after stepping on
+    tilemap.setTileProperties(17, FlxObject.UP, function(tile, object) {
+      // TODO animate this? particles would be nice
+      tilemap.setTile(cast tile.x / 16, cast tile.y / 16, 0);
+      shadowTilemap.setTile(cast tile.x / 16, cast tile.y / 16, 0);
+    }, Player);
 
     shadowTilemap = new FlxTilemap();
     shadowTilemap.loadMapFromArray(solidLayer.tileArray,
