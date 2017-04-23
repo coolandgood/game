@@ -70,6 +70,8 @@ class Player extends FlxSprite {
     level.add(emitter);
     kill(); // remove self
 
+    FlxG.sound.play("boom");
+
     emitter.launchMode = FlxEmitterMode.SQUARE;
     emitter.acceleration.set(-8, GRAVITY * -1, -16, GRAVITY * -3);
 
@@ -94,6 +96,7 @@ class Player extends FlxSprite {
     if (keys.justPressed.UP && isTouching(FlxObject.FLOOR)) {
       // jump!
       velocity.y = -JUMP_FORCE;
+      FlxG.sound.play("jump");
     } else if (velocity.y < 0 && keys.justReleased.UP) {
       velocity.y *= 0.5; // jump height is based on how long you hold the up key
     }

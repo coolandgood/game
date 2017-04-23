@@ -31,6 +31,7 @@ class Level extends FlxGroup {
   private var parent: FlxState;
 
   private var going: Bool = false;
+  private var music: String;
 
   public function new(level: String, parent: FlxState) {
     super();
@@ -38,6 +39,23 @@ class Level extends FlxGroup {
     visible = false;
 
     load(level);
+  }
+
+  public function getMeta(level: String) {
+    var map = new TiledMap('assets/data/$level.tmx');
+    var objectsLayer: TiledObjectLayer = cast map.getLayer('objects');
+    objects = objectsLayer.objects;
+
+    var song: String = '';
+
+    for (object in objects) {
+      if (object.type == 'music')
+        song = object.name;
+    }
+
+    return {
+      music: song
+    };
   }
 
   public function load(level: String) {
@@ -125,8 +143,10 @@ class Level extends FlxGroup {
       if (object.type == "spawn")
         player.setPosition(object.x, object.y);
 
-      if (object.type == "music")
+      if (object.type == "music" && music != object.name) {
+        music = object.name;
         FlxG.sound.playMusic(object.name, 1, true);
+      }
     }
 
     player.lvWidth = width = map.width * 16;
@@ -228,7 +248,8 @@ class Level extends FlxGroup {
     player.controllable = false;
     player.explode();
 
-    FlxG.sound.music.stop(); // TODO: sfx
+    if (getMeta(object.name).music != music)
+      FlxG.sound.music.stop();
 
     new FlxTimer().start(1.5, function(timer: FlxTimer) {
       // close off the level
