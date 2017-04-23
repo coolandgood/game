@@ -2,6 +2,7 @@ package;
 
 import flixel.tile.FlxTilemap;
 import flixel.FlxG;
+import flixel.FlxObject;
 import flixel.group.FlxGroup;
 import flixel.math.FlxPoint;
 
@@ -34,6 +35,16 @@ class Level extends FlxGroup {
                              map.height,
                              AssetPaths.tileset__png,
                              16, 16, 1);
+
+    // one way tiles
+    tilemap.setTileProperties(7,  FlxObject.RIGHT);
+    tilemap.setTileProperties(13, FlxObject.RIGHT);
+    tilemap.setTileProperties(8,  FlxObject.DOWN);
+    tilemap.setTileProperties(14, FlxObject.DOWN);
+    tilemap.setTileProperties(9,  FlxObject.UP);
+    tilemap.setTileProperties(15, FlxObject.UP);
+    tilemap.setTileProperties(10, FlxObject.LEFT);
+    tilemap.setTileProperties(16, FlxObject.LEFT);
 
     shadowTilemap = new FlxTilemap();
     shadowTilemap.loadMapFromArray(solidLayer.tileArray,

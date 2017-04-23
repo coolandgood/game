@@ -17,15 +17,6 @@ class PlayState extends FlxState {
 
     FlxG.mouse.useSystemCursor = true;
 
-    var map: Array<Int> = [
-      0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0,
-      1, 0, 0, 0, 1, 1, 1,
-      1, 0, 0, 0, 0, 0, 1,
-      1, 0, 0, 0, 0, 0, 1,
-      1, 0, 0, 1, 1, 1, 1
-    ];
-
     level = new Level('test');
     add(level);
 
