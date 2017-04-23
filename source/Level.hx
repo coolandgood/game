@@ -13,6 +13,7 @@ import flixel.addons.editors.tiled.TiledObjectLayer;
 
 class Level extends FlxGroup {
   var tilemap: FlxTilemap;
+  var shadowTilemap: FlxTilemap;
   var border: FlxTilemap;
   var player: Player;
 
@@ -34,6 +35,17 @@ class Level extends FlxGroup {
                              map.height,
                              AssetPaths.tileset__png,
                              16, 16, 1);
+
+    shadowTilemap = new FlxTilemap();
+    shadowTilemap.loadMapFromArray(mainLayer.tileArray,
+                                   map.width,
+                                   map.height,
+                                   AssetPaths.tileset_shadow__png,
+                                   16, 16, 1);
+
+    shadowTilemap.x = shadowTilemap.y = 4;
+
+    add(shadowTilemap);
     add(tilemap);
     add(genBorder(map.width + 3, map.height + 3));
 
@@ -55,9 +67,11 @@ class Level extends FlxGroup {
     FlxG.collide(player, tilemap);
   }
 
+  /*
   override public function draw() {
     super.draw();
   }
+  */
 
   private function genBorder(width: Int, height: Int): FlxTilemap {
     var borderData: Array<Int> = [];
