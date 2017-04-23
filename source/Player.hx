@@ -29,11 +29,12 @@ class Player extends FlxSprite {
 
   public var controllable: Bool = true;
 
-  public function new(x, y) {
+  public function new(x: Float, y: Float, level: Level) {
     super(x, y);
     loadGraphic(AssetPaths.cube_health_1__png);
     setSize(16, 16);
 
+    this.level = level;
     maxVelocity.set(TERMINAL_XV, TERMINAL_YV);
   }
 

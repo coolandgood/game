@@ -29,7 +29,7 @@ class Level extends FlxGroup {
   public function new(level: String) {
     super();
 
-    player = new Player(32, 32);
+    player = new Player(32, 32, this);
 
     var map = new TiledMap('assets/data/$level.tmx');
     var solidLayer: TiledTileLayer = cast map.getLayer('solid');
@@ -53,26 +53,24 @@ class Level extends FlxGroup {
 
     // tile that breaks after stepping on
     tilemap.setTileProperties(17, FlxObject.UP, function(tile, object) {
-      // TODO animate this? particles would be nice
-      var disappearingTile:FlxSprite = tilemap.tileToSprite(cast tile.x / 16, cast tile.y / 16);
+
+      // TODO particles would be nice
+      var disappearingTile: FlxSprite = tilemap.tileToSprite(cast tile.x / 16, cast tile.y / 16);
       add(disappearingTile);
 
       tilemap.setTile(cast tile.x / 16, cast tile.y / 16, 4);
       shadowTilemap.setTile(cast tile.x / 16, cast tile.y / 16, 4);
 
-      new FlxTimer().start(0.2, 
-      	function(timer) {
-      		disappearingTile.alpha -= 0.1;
-            trace(cast timer.progress);
-      		if (timer.progress >= 0.08) {
-                trace("code got here !!!");
-      			tilemap.setTile(cast tile.x / 16, cast tile.y / 16, 0);
-      			shadowTilemap.setTile(cast tile.x / 16, cast tile.y / 16, 0);
-      		}
-      	},
-      	10);
-
-      
+      new FlxTimer().start(0.2,
+        function(timer) {
+          disappearingTile.alpha -= 0.1;
+          if (timer.progress >= 0.08) { // not sure what this number is, the console gave it to me so I'm using it
+            // XXX: why does this not work
+            tilemap.setTile(cast tile.x / 16, cast tile.y / 16, 0);
+            shadowTilemap.setTile(cast tile.x / 16, cast tile.y / 16, 0);
+          }
+        },
+        10);
     }, Player);
 
     // finish level tile
@@ -98,11 +96,13 @@ class Level extends FlxGroup {
     for (object in objects) {
       if (object.type == "spawn")
         player.setPosition(object.x, object.y);
+
+      if (object.type == "music")
+        FlxG.sound.playMusic(object.name, 1, true);
     }
 
     player.lvWidth = width = map.width * 16;
     player.lvHeight = height = map.height * 16;
-    player.level = this;
   }
 
   override public function update(elapsed: Float) {
@@ -115,15 +115,13 @@ class Level extends FlxGroup {
       // XXX: could this be optimised?
       for (object in objects) {
         if (object.type == "finish") {
-          trace(object.x, player.x);
-
           var overlaps: Bool = player.x >= object.x
             && player.x <= object.x + object.width 
             && player.y >= object.y
             && player.y <= object.y + object.height;
 
           if (overlaps) {
-            end();
+            end(object);
             break;
           }
         }
@@ -162,7 +160,7 @@ class Level extends FlxGroup {
     return border;
   }
 
-  public function end() {
+  public function end(object: TiledObject) {
     player.controllable = false;
     player.explode();
 
