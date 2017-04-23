@@ -64,10 +64,10 @@ class Level extends FlxGroup {
         function(timer) {
           disappearingTile.alpha -= 0.1;
           if (timer.loopsLeft == 0) {
+            // XXX: why does this not work
             tilemap.setTile(cast tile.x / 16, cast tile.y / 16, 0);
             shadowTilemap.setTile(cast tile.x / 16, cast tile.y / 16, 0);
           }
-          trace(timer.loopsLeft);
         },
         10);
     }, Player);
@@ -95,6 +95,9 @@ class Level extends FlxGroup {
     for (object in objects) {
       if (object.type == "spawn")
         player.setPosition(object.x, object.y);
+
+      if (object.type == "music")
+        FlxG.sound.playMusic(object.name, 1, true);
     }
 
     player.lvWidth = width = map.width * 16;
@@ -111,15 +114,13 @@ class Level extends FlxGroup {
       // XXX: could this be optimised?
       for (object in objects) {
         if (object.type == "finish") {
-          trace(object.x, player.x);
-
           var overlaps: Bool = player.x >= object.x
             && player.x <= object.x + object.width 
             && player.y >= object.y
             && player.y <= object.y + object.height;
 
           if (overlaps) {
-            end();
+            end(object);
             break;
           }
         }
@@ -158,7 +159,7 @@ class Level extends FlxGroup {
     return border;
   }
 
-  public function end() {
+  public function end(object: TiledObject) {
     player.controllable = false;
     player.explode();
 

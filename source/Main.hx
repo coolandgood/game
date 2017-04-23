@@ -14,8 +14,5 @@ class Main extends Sprite {
     FlxG.sound.muteKeys = ['m'];
     FlxG.sound.volumeUpKeys = null;
     FlxG.sound.volumeDownKeys = null;
-
-    // play music idk
-    FlxG.sound.playMusic(AssetPaths.relix__ogg, 1, true);
   }
 }
