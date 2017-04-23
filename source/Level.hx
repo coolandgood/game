@@ -29,7 +29,7 @@ class Level extends FlxGroup {
   public function new(level: String) {
     super();
 
-    player = new Player(32, 32);
+    player = new Player(32, 32, this);
 
     var map = new TiledMap('assets/data/$level.tmx');
     var solidLayer: TiledTileLayer = cast map.getLayer('solid');
@@ -100,7 +100,6 @@ class Level extends FlxGroup {
 
     player.lvWidth = width = map.width * 16;
     player.lvHeight = height = map.height * 16;
-    player.level = this;
   }
 
   override public function update(elapsed: Float) {
