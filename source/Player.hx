@@ -5,6 +5,10 @@ import flixel.FlxObject;
 import flixel.FlxG;
 import flixel.util.FlxColor;
 
+import flixel.effects.particles.FlxEmitter.FlxEmitterMode;
+import flixel.effects.particles.FlxEmitter;
+import flixel.effects.particles.FlxParticle;
+
 class Player extends FlxSprite {
   private static inline var TERMINAL_XV = 72 * 2;
   private static inline var TERMINAL_YV = 256 * 2;
@@ -21,6 +25,9 @@ class Player extends FlxSprite {
 
   public var lvWidth: Int = 640;
   public var lvHeight: Int = 480;
+  public var level: Level; // reference to parent Level
+
+  public var controllable: Bool = true;
 
   public function new(x, y) {
     super(x, y);
@@ -31,10 +38,10 @@ class Player extends FlxSprite {
   }
 
   override public function update(tick: Float): Void {
-    move();
+    if (controllable) move();
 
     if (FlxG.keys.justPressed.SPACE)
-      FlxG.camera.shake(0.03, 0.3);
+      FlxG.camera.shake(0.01, 0.2);
 
     super.update(tick);
   }
@@ -54,6 +61,19 @@ class Player extends FlxSprite {
 
     // actual
     super.draw();
+  }
+
+  public function explode() {
+    // explode into a bunch of particles
+    var emitter = new FlxEmitter(x + width/2, y + height/2, 75);
+    level.add(emitter);
+    kill(); // remove self
+
+    emitter.launchMode = FlxEmitterMode.SQUARE;
+    emitter.acceleration.set(-8, GRAVITY * -1, -16, GRAVITY * -3);
+
+    emitter.makeParticles(2, 2, 0xFF5674B9, 75).start(true, 0, 0);
+    FlxG.camera.shake(0.05, 0.2);
   }
 
   private function move() {

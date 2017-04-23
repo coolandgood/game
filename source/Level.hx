@@ -6,6 +6,7 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.group.FlxGroup;
 import flixel.math.FlxPoint;
+import flixel.util.FlxTimer;
 
 import flixel.addons.editors.tiled.TiledLayer;
 import flixel.addons.editors.tiled.TiledTileLayer;
@@ -22,10 +23,12 @@ class Level extends FlxGroup {
   public var width: Int;
   public var height: Int;
 
+  public var objects: Array<TiledObject> = [];
+
   public function new(level: String) {
     super();
 
-    var player = new Player(32, 32);
+    player = new Player(32, 32);
 
     var map = new TiledMap('assets/data/$level.tmx');
     var solidLayer: TiledTileLayer = cast map.getLayer('solid');
@@ -54,6 +57,9 @@ class Level extends FlxGroup {
       shadowTilemap.setTile(cast tile.x / 16, cast tile.y / 16, 0);
     }, Player);
 
+    // finish level tile
+    tilemap.setTileProperties(3, FlxObject.NONE);
+
     shadowTilemap = new FlxTilemap();
     shadowTilemap.loadMapFromArray(solidLayer.tileArray,
                                    map.width,
@@ -69,7 +75,7 @@ class Level extends FlxGroup {
     add(genBorder(map.width + 3, map.height + 3));
 
     var objectsLayer: TiledObjectLayer = cast map.getLayer('objects');
-    var objects: Array<TiledObject> = objectsLayer.objects;
+    objects = objectsLayer.objects;
 
     for (object in objects) {
       if (object.type == "spawn")
@@ -78,12 +84,33 @@ class Level extends FlxGroup {
 
     player.lvWidth = width = map.width * 16;
     player.lvHeight = height = map.height * 16;
+    player.level = this;
   }
 
   override public function update(elapsed: Float) {
     super.update(elapsed);
 
-    FlxG.collide(player, tilemap);
+    FlxG.collide(tilemap, player);
+
+    if (player.alive) {
+      // check for collisions with `finish` objects
+      // XXX: could this be optimised?
+      for (object in objects) {
+        if (object.type == "finish") {
+          trace(object.x, player.x);
+
+          var overlaps: Bool = player.x >= object.x
+            && player.x <= object.x + object.width 
+            && player.y >= object.y
+            && player.y <= object.y + object.height;
+
+          if (overlaps) {
+            end();
+            break;
+          }
+        }
+      }
+    }
   }
 
   /*
@@ -113,8 +140,19 @@ class Level extends FlxGroup {
                             AssetPaths.tileset__png,
                             16, 16, 1);
 
-    trace(border);
     border.x = border.y = -16;
     return border;
+  }
+
+  public function end() {
+    player.controllable = false;
+    player.explode();
+
+    FlxG.sound.music.stop(); // play a sfx here too
+
+    new FlxTimer().start(1.5, function(timer: FlxTimer) {
+      // close off the level
+      FlxG.camera.fade(0xffdb1b3b, 0.2, false);
+    });
   }
 }
