@@ -54,16 +54,18 @@ class Level extends FlxGroup {
     // tile that breaks after stepping on
     tilemap.setTileProperties(17, FlxObject.UP, function(tile, object) {
       // TODO animate this? particles would be nice
-      var disappearing_tile:FlxSprite = tilemap.tileToSprite(cast tile.x / 16, cast tile.y / 16);
-      add(disappearing_tile);
+      var disappearingTile:FlxSprite = tilemap.tileToSprite(cast tile.x / 16, cast tile.y / 16);
+      add(disappearingTile);
 
       tilemap.setTile(cast tile.x / 16, cast tile.y / 16, 4);
       shadowTilemap.setTile(cast tile.x / 16, cast tile.y / 16, 4);
 
       new FlxTimer().start(0.2, 
-      	function(timer){
-      		disappearing_tile.alpha -= 0.1;
-      		if (timer.loopsLeft == 0) {
+      	function(timer) {
+      		disappearingTile.alpha -= 0.1;
+            trace(cast timer.progress);
+      		if (timer.progress >= 0.08) {
+                trace("code got here !!!");
       			tilemap.setTile(cast tile.x / 16, cast tile.y / 16, 0);
       			shadowTilemap.setTile(cast tile.x / 16, cast tile.y / 16, 0);
       		}
