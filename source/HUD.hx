@@ -11,6 +11,8 @@ class HUD extends FlxSpriteGroup {
   public function new() {
     super();
 
+    scrollFactor.set(0, 0); // prevents group from scrolling w/ camera
+
     text = new FlxText(8, 8, 'elapsed: 0', 16);
     add(text);
   }
