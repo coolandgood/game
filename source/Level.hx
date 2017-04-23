@@ -61,14 +61,14 @@ class Level extends FlxGroup {
       shadowTilemap.setTile(cast tile.x / 16, cast tile.y / 16, 4);
 
       new FlxTimer().start(0.2, 
-      	function(timer){
-      		disappearing_tile.alpha -= 0.1;
-      		if (timer.loopsLeft == 0) {
-      			tilemap.setTile(cast tile.x / 16, cast tile.y / 16, 0);
-      			shadowTilemap.setTile(cast tile.x / 16, cast tile.y / 16, 0);
-      		}
-      	},
-      	10);
+        function(timer){
+          disappearing_tile.alpha -= 0.1;
+          if (timer.loopsLeft == 0) {
+            tilemap.setTile(cast tile.x / 16, cast tile.y / 16, 0);
+            shadowTilemap.setTile(cast tile.x / 16, cast tile.y / 16, 0);
+          }
+        },
+        10);
 
       
     }, Player);
