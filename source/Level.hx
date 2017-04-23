@@ -41,7 +41,9 @@ class Level extends FlxGroup {
                                    AssetPaths.tileset_shadow__png,
                                    16, 16, 1);
 
-    //add(shadowTilemap);
+    shadowTilemap.x = shadowTilemap.y = 4;
+
+    add(shadowTilemap);
     add(tilemap);
 
     player.lvWidth = width = map.width * 16;
