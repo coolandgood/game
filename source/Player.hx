@@ -8,13 +8,13 @@ import flixel.util.FlxColor;
 class Player extends FlxSprite {
   private static inline var TERMINAL_XV = 72 * 2;
   private static inline var TERMINAL_YV = 256 * 2;
-  private static inline var TERMINAL_FALL = 72 * 2;
 
-  private static inline var JUMP_FORCE = 164 * 2;
-  private static inline var GRAVITY = 6 * 2;
+  private static inline var JUMP_FORCE = 300 * 2;
+  private static inline var GRAVITY = 10 * 2;
 
-  private static inline var SPEED = 24 * 2;
-  private static inline var DRAG = 0.6;
+  private static inline var SPEED = 20 * 2;
+  private static inline var DRAG_X = 0.8;
+  private static inline var DRAG_Y = 0.95;
 
   private var ox: Float;
   private var oy: Float;
@@ -67,7 +67,7 @@ class Player extends FlxSprite {
       velocity.x += SPEED;
     } else {
       // slow down
-      velocity.x *= DRAG;
+      velocity.x *= DRAG_X;
     }
 
     if (keys.justPressed.UP && isTouching(FlxObject.FLOOR)) {
@@ -77,8 +77,8 @@ class Player extends FlxSprite {
       velocity.y *= 0.5; // jump height is based on how long you hold the up key
     }
 
-    if (velocity.y < TERMINAL_FALL)
-      velocity.y += GRAVITY;
+    velocity.y += GRAVITY;
+    velocity.y *= DRAG_Y;
   }
 
   private function drawWrapped() {
