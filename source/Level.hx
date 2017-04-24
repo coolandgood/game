@@ -93,7 +93,7 @@ class Level extends FlxGroup {
     tilemap.setTileProperties(16, FlxObject.LEFT);
 
     // tile that breaks after stepping on
-    tilemap.setTileProperties(17, FlxObject.UP, function(tile, object) {
+    tilemap.setTileProperties(17, FlxObject.ANY, function(tile, object) {
       var tileX:Int = Math.floor(tile.x / 16);
       var tileY:Int = Math.floor(tile.y / 16);
       var shadowX:Int = tileX + 1;
