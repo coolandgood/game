@@ -21,6 +21,7 @@ import flixel.addons.editors.tiled.TiledObjectLayer;
 class Level extends FlxGroup {
   var tilemap: FlxTilemap;
   var shadowTilemap: FlxTilemap;
+  var shadowLayer: FlxGroup;
   var border: FlxTilemap;
   var player: Player;
 
@@ -61,6 +62,7 @@ class Level extends FlxGroup {
   public function load(level: String) {
     if (tilemap != null) tilemap.destroy();
     if (shadowTilemap != null) shadowTilemap.destroy();
+    if (shadowLayer != null) shadowLayer.destroy();
     if (border != null) border.destroy();
     if (player != null) player.destroy();
 
@@ -89,21 +91,27 @@ class Level extends FlxGroup {
 
     // tile that breaks after stepping on
     tilemap.setTileProperties(17, FlxObject.UP, function(tile, object) {
+      var tileX:Int = Math.floor(tile.x / 16);
+      var tileY:Int = Math.floor(tile.y / 16);
+      var shadowX:Int = tileX + 1;
+      var shadowY:Int = tileY + 1;
 
       // TODO particles would be nice
-      var disappearingTile: FlxSprite = tilemap.tileToSprite(cast tile.x / 16, cast tile.y / 16);
+      var disappearingTile: FlxSprite = tilemap.tileToSprite(tileX, tileY, 4);
+      var disappearingShadowTile: FlxSprite = shadowTilemap.tileToSprite(shadowX, shadowY, 4);
       add(disappearingTile);
-
-      tilemap.setTile(cast tile.x / 16, cast tile.y / 16, 4);
-      shadowTilemap.setTile(cast tile.x / 16, cast tile.y / 16, 4);
+      shadowLayer.add(disappearingShadowTile);
 
       new FlxTimer().start(0.2,
         function(timer) {
           disappearingTile.alpha -= 0.1;
-          if (timer.progress >= 0.08) { // not sure what this number is, the console gave it to me so I'm using it
-            // XXX: why does this not work
-            tilemap.setTile(cast tile.x / 16, cast tile.y / 16, 0);
-            shadowTilemap.setTile(cast tile.x / 16, cast tile.y / 16, 0);
+          disappearingShadowTile.alpha = disappearingTile.alpha;
+          if (disappearingTile.alpha <= 0.01) {
+            tilemap.setTile(tileX, tileY, 0);
+            shadowTilemap.setTile(shadowX, shadowY, 0);
+            remove(disappearingTile);
+            shadowLayer.remove(disappearingShadowTile);
+            timer.cancel();
           }
         },
         10);
@@ -138,7 +146,13 @@ class Level extends FlxGroup {
 
     shadowTilemap.x = shadowTilemap.y = 4 - 16;
 
-    add(shadowTilemap);
+    // A separate group to act as the layer the shadow tilemap will be added
+    // to, so that we can later add new shadow sprites to this layer (and below
+    // normal tiles and sprites).
+    shadowLayer = new FlxGroup();
+    shadowLayer.add(shadowTilemap);
+    add(shadowLayer);
+
     add(player);
     add(tilemap);
     add(genBorder(map.width + 3, map.height + 3));
