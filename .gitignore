@@ -1,2 +1,6 @@
-export
 *.sublime-project
+
+export/*
+!export/html5/
+export/html5/haxe/
+!export/html5/bin/
