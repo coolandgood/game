@@ -182,6 +182,8 @@ class Level extends FlxGroup {
     player.immovable = true;
     trace('level go!');
 
+    FlxG.camera.focusOn(new FlxPoint(width / 2, height / 2));
+
     var things = [ tilemap, shadowTilemap, border ];
     for (thing in things) {
       var oy = thing.y;
@@ -269,17 +271,17 @@ class Level extends FlxGroup {
     player.controllable = false;
     player.explode();
 
-    if (getMeta(object.name).music != music)
+    if (music != null && getMeta(object.name).music != music)
       FlxG.sound.music.stop();
 
     new FlxTimer().start(1.5, function(timer: FlxTimer) {
       // close off the level
       FlxG.camera.fade(0xffdb1b3b, 0.2, false, function() {
+        trace('next level', object.name);
         load(object.name);
         go();
 
-        FlxG.camera.fade(0xffdb1b3b, 0, true); // reset fade
-        trace('next level', object.name);
+        FlxG.camera.fade(0xffdb1b3b, 0.2, true); // reset fade
       });
     });
   }
