@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="9" height="7" tilewidth="16" tileheight="16" nextobjectid="6">
+ <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16" tilecount="18" columns="6">
+  <image source="../images/tileset.png" width="96" height="48"/>
+ </tileset>
+ <layer name="solid" width="9" height="7">
+  <data encoding="csv">
+1,1,1,1,1,0,0,1,1,
+0,0,0,0,1,0,0,0,0,
+0,0,0,3,1,0,0,0,0,
+1,17,17,1,1,14,14,1,1,
+0,0,0,0,16,0,0,10,0,
+0,0,0,0,16,0,0,10,0,
+9,9,1,1,1,0,0,1,9
+</data>
+ </layer>
+ <objectgroup color="#000000" name="objects">
+  <object id="2" name="player" type="spawn" x="32" y="80" width="16" height="16"/>
+  <object id="3" name="end" type="finish" x="48" y="32" width="16" height="16"/>
+  <object id="5" name="relix" type="music" x="-16" y="-16" width="16" height="16"/>
+ </objectgroup>
+</map>
