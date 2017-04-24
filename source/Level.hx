@@ -113,6 +113,14 @@ class Level extends FlxGroup {
     tilemap.setTileProperties(3, FlxObject.NONE);
 
     var shadowTileArray:Array<Int> = [];
+
+    shadowTileArray.push(solidLayer.tileArray[map.height * map.width - 1]);
+    for (x in 0...map.width) {
+      var i:Int = (map.height - 1) * map.width + x;
+      // var i:Int = x;
+      shadowTileArray.push(solidLayer.tileArray[i]);
+    }
+
     for (y in 0...map.height) {
       var i:Int = y * map.width;
       shadowTileArray.push(solidLayer.tileArray[i + map.width - 1]);
@@ -124,12 +132,11 @@ class Level extends FlxGroup {
     shadowTilemap = new FlxTilemap();
     shadowTilemap.loadMapFromArray(shadowTileArray,
                                    map.width + 1,
-                                   map.height,
+                                   map.height + 1,
                                    AssetPaths.tileset_shadow__png,
                                    16, 16, 1);
 
-    shadowTilemap.x = shadowTilemap.y = 4;
-    shadowTilemap.x -= 16;
+    shadowTilemap.x = shadowTilemap.y = 4 - 16;
 
     add(shadowTilemap);
     add(player);
