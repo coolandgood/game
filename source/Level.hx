@@ -33,6 +33,7 @@ class Level extends FlxGroup {
 
   private var going: Bool = false;
   private var music: String;
+  private var currentLevel: String;
 
   public function new(level: String, parent: FlxState) {
     super();
@@ -65,6 +66,8 @@ class Level extends FlxGroup {
     if (shadowLayer != null) shadowLayer.destroy();
     if (border != null) border.destroy();
     if (player != null) player.destroy();
+
+    currentLevel = level;
 
     player = new Player(32, 32, this);
     player.controllable = false;
@@ -178,7 +181,7 @@ class Level extends FlxGroup {
     player.lvHeight = height = map.height * 16;
   }
 
-  public function go() {
+  public function go(fast: Bool = false) {
     // animate!
 
     visible = true;
@@ -191,8 +194,8 @@ class Level extends FlxGroup {
     var things = [ tilemap, shadowTilemap, border ];
     for (thing in things) {
       var oy = thing.y;
-      thing.y -= 640;
-      FlxTween.tween(thing, { y: oy }, 0.6, {
+      if (!fast) thing.y -= 640;
+      FlxTween.tween(thing, { y: oy }, fast ? 0.1 : 0.6, {
         ease: FlxEase.expoOut,
         type: FlxTween.PERSIST,
         onComplete: function(tween: FlxTween) {
@@ -275,15 +278,24 @@ class Level extends FlxGroup {
     player.controllable = false;
     player.explode();
 
+    var fast: Bool = object.name == currentLevel;
+
     if (music != null && getMeta(object.name).music != music)
       FlxG.sound.music.stop();
 
     new FlxTimer().start(1.5, function(timer: FlxTimer) {
+      if (fast) {
+        load(object.name);
+        go(true);
+
+        return;
+      }
+
       // close off the level
       FlxG.camera.fade(0xffdb1b3b, 0.2, false, function() {
         trace('next level', object.name);
         load(object.name);
-        go();
+        go(fast);
 
         FlxG.camera.fade(0xffdb1b3b, 0.2, true); // reset fade
       });
