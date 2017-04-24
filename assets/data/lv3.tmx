@@ -11,13 +11,11 @@
 1,1,1,1,1,1,17,1,
 1,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,1,
-1,0,0,0,11,11,0,1,
+1,0,0,0,11,0,0,1,
 1,1,1,1,1,1,0,1
 </data>
  </layer>
  <objectgroup name="objects">
-  <object id="10" name="lv3" type="finish" x="64" y="96" width="32" height="16"/>
-  <object id="11" name="lv3" type="finish" x="16" y="32" width="15" height="15"/>
   <object id="5" name="lv4" type="finish" x="32" y="32" width="16" height="16"/>
   <object id="6" type="spawn" x="32" y="96" width="16" height="16"/>
   <object id="7" name="relix" type="music" x="-16" y="-16" width="16" height="16"/>
