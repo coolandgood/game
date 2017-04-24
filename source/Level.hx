@@ -124,7 +124,9 @@ class Level extends FlxGroup {
     tilemap.setTileProperties(3, FlxObject.NONE);
 
     // spike
-    tilemap.setTileProperties(11, FlxObject.NONE);
+    tilemap.setTileProperties(11, FlxObject.ANY, function(tile, object) {
+      end({ name: currentLevel });
+    });
 
     // shadows
     var shadowTileArray:Array<Int> = [];
@@ -274,7 +276,7 @@ class Level extends FlxGroup {
     return border;
   }
 
-  public function end(object: TiledObject) {
+  public function end(object: Dynamic) {
     player.controllable = false;
     player.explode();
 
