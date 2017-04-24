@@ -120,6 +120,10 @@ class Level extends FlxGroup {
     // finish level tile
     tilemap.setTileProperties(3, FlxObject.NONE);
 
+    // spike
+    tilemap.setTileProperties(11, FlxObject.NONE);
+
+    // shadows
     var shadowTileArray:Array<Int> = [];
 
     shadowTileArray.push(solidLayer.tileArray[map.height * map.width - 1]);
