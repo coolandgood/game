@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="12" height="9" tilewidth="16" tileheight="16" nextobjectid="13">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="12" height="9" tilewidth="16" tileheight="16" nextobjectid="16">
  <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16" tilecount="18" columns="6">
   <image source="../images/tileset.png" width="96" height="48"/>
  </tileset>
  <layer name="solid" width="12" height="9">
   <data encoding="csv">
-1,0,0,0,11,0,0,0,0,0,0,1,
-1,0,0,0,1,0,11,0,0,0,0,1,
+1,0,0,0,11,0,0,0,0,11,0,1,
+1,0,0,0,1,0,11,0,0,1,0,1,
 1,0,0,0,0,0,1,0,0,0,0,1,
 1,1,1,0,0,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,0,0,0,3,1,
-1,0,0,0,0,0,0,0,0,1,1,1,
-1,0,0,0,0,0,0,11,0,0,0,1,
+1,0,11,0,0,11,0,0,0,1,1,1,
+1,0,1,0,0,1,0,11,0,0,0,1,
 1,0,0,0,0,0,0,1,0,0,0,1,
 1,0,0,0,0,0,0,0,0,0,0,1
 </data>
@@ -23,5 +23,8 @@
   <object id="10" name="lv8" type="finish" x="112" y="96" width="16" height="16"/>
   <object id="11" name="lv8" type="finish" x="64" y="0" width="16" height="16"/>
   <object id="12" name="lv8" type="finish" x="96" y="16" width="16" height="16"/>
+  <object id="13" name="lv8" type="finish" x="144" y="0" width="16" height="16"/>
+  <object id="14" name="lv8" type="finish" x="80" y="80" width="16" height="16"/>
+  <object id="15" name="lv8" type="finish" x="32" y="80" width="16" height="16"/>
  </objectgroup>
 </map>
