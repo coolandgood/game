@@ -107,7 +107,6 @@ class Level extends FlxGroup {
           disappearingTile.alpha -= 0.1;
           disappearingShadowTile.alpha = disappearingTile.alpha;
           if (disappearingTile.alpha <= 0.01) {
-            // XXX: why does this not work
             tilemap.setTile(tileX, tileY, 0);
             shadowTilemap.setTile(shadowX, shadowY, 0);
             remove(disappearingTile);
