@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="4" height="8" tilewidth="16" tileheight="16" nextobjectid="31">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="4" height="8" tilewidth="16" tileheight="16" nextobjectid="32">
  <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16" tilecount="18" columns="6">
   <image source="../images/tileset.png" width="96" height="48"/>
  </tileset>
  <layer name="solid" width="4" height="8">
   <data encoding="csv">
-3,11,0,13,
-1,15,15,0,
+3,7,0,13,
+17,17,15,1,
 11,0,0,1,
 9,0,9,7,
 15,1,11,13,
@@ -17,7 +17,7 @@
  </layer>
  <objectgroup name="objects">
   <object id="12" name="tell_me" type="music" x="-16" y="-16" width="16" height="16"/>
-  <object id="26" name="lvQuat1" type="finish" x="-1" y="-1" width="16" height="16"/>
+  <object id="26" name="lvQuat1" type="finish" x="0" y="-1" width="15" height="17"/>
   <object id="27" name="lvInit2.1" type="finish" x="31" y="112" width="16" height="16"/>
   <object id="29" type="spawn" x="15" y="95" width="16" height="16"/>
  </objectgroup>
