@@ -16,7 +16,7 @@ class PlayState extends FlxState {
 
     FlxG.mouse.useSystemCursor = true;
 
-    var level = new Level('lvTonix1', this); // TODO TODO TODO TODO TODO mainmenu
+    var level = new Level('lvInit1', this); // TODO TODO TODO TODO TODO mainmenu
     add(level);
 
     hud = new HUD();
