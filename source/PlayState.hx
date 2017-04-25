@@ -16,7 +16,8 @@ class PlayState extends FlxState {
 
     FlxG.mouse.useSystemCursor = true;
 
-    var level = new Level('test', this);
+    var level = new Level('lv6', this); //debugging
+    //var level = new Level('test', this);
     add(level);
 
     hud = new HUD();
