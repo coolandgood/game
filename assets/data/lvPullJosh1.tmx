@@ -19,7 +19,7 @@
  </layer>
  <objectgroup name="objects">
   <object id="11" type="spawn" x="16" y="32" width="16" height="16"/>
-  <object id="12" name="relix" type="music" x="-16" y="-16" width="16" height="16"/>
+  <object id="12" name="tell_me" type="music" x="-16" y="-16" width="16" height="16"/>
   <object id="15" name="lvTonix1" type="finish" x="128" y="80" width="16" height="16"/>
  </objectgroup>
 </map>
