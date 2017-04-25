@@ -19,7 +19,7 @@
 </data>
  </layer>
  <objectgroup name="objects">
-  <object id="5" name="lv3" type="finish" x="32" y="80" width="16" height="16"/>
+  <object id="5" name="lvStory3" type="finish" x="32" y="80" width="16" height="16"/>
   <object id="6" type="spawn" x="16" y="144" width="16" height="16"/>
   <object id="7" name="tell_me" type="music" x="-16" y="-16" width="16" height="16"/>
  </objectgroup>
