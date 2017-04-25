@@ -18,6 +18,6 @@
  <objectgroup name="objects">
   <object id="11" type="spawn" x="110" y="78" width="16" height="16"/>
   <object id="12" name="relix" type="music" x="-16" y="-16" width="16" height="16"/>
-  <object id="22" name="end" type="finish" x="145" y="15" width="16" height="16"/>
+  <object id="22" name="lvQuat1" type="finish" x="145" y="15" width="16" height="16"/>
  </objectgroup>
 </map>
