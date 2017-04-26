@@ -41,9 +41,6 @@ class Player extends FlxSprite {
   override public function update(tick: Float): Void {
     if (controllable) move();
 
-    if (FlxG.keys.justPressed.SPACE)
-      FlxG.camera.shake(0.01, 0.2);
-
     super.update(tick);
   }
 
